@@ -44,7 +44,7 @@ public class ProductListAdapter extends BaseAdapter {
         tvName.setText(mProductList.get(position).getName());
         tvPrice.setText(String.valueOf(mProductList.get(position).getDate()));
         tvDescription.setText(mProductList.get(position).getDescription());
-v.setTag(mProductList.get(position).getId());
+        v.setTag(mProductList.get(position).getId());
 
 
         return v;

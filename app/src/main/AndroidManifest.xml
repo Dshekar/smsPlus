@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -22,15 +23,13 @@
             </intent-filter>
         </activity>
 
-
-
         <!-- Broadcast receiver that listens for incoming messages -->
         <receiver
             android:name=".SmsReceiver"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
@@ -77,8 +76,9 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Displaymsgs"></activity>
-        <activity android:name=".LastActivity"></activity>
+        <activity android:name=".Displaymsgs" />
+        <activity android:name=".LastActivity" />
+        <activity android:name=".chooseContacts"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,10 @@
 package com.example.rajashekarreddy.sample1;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -18,7 +20,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
     private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
     private static final String TAG = "SMSBroadcastReceiver";
-
+    public static Context contextOfApplication;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,10 +36,19 @@ public class SmsReceiver extends BroadcastReceiver {
                 }
                 if (messages.length > -1) {
                     Log.i(TAG, "Message recieved: " + messages[0].getMessageBody());
+                    ContentValues values = new ContentValues();
+                    values.put("address", messages[0].getOriginatingAddress());
+                    values.put("body", messages[0].getMessageBody());
+                    Toast.makeText(context, "Message recieved: " + messages[0].getMessageBody(), Toast.LENGTH_SHORT).show();
+                  context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
                     Toast.makeText(context, "Message recieved: " + messages[0].getMessageBody(), Toast.LENGTH_SHORT).show();
                 }
             }
         }
 
+    }
+
+    private Context getApplicationContext() {
+        return contextOfApplication;
     }
 }
