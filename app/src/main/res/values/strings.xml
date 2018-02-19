@@ -22,6 +22,8 @@
     <string name="ok_label">Ok</string>
     <string name="dismiss_label">cancel</string>
     <string name="clear_all_label">clear selection</string>
+    <string name="add_to_blacklist">Add to blacklist</string>
+    <string name="view_blacklist">view blacklist</string>
 
 
 </resources>

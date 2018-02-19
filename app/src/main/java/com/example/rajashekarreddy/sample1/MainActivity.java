@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,12 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Product> mProductList;
     private ListView lvProduct;
     private ProductListAdapter adapter;
-    //  private Log mLogger;
+
     AlertDialog.Builder alertdialogbuilder;
 
-
-    //        app:miniFabDrawableTint="?attr/colorPrimaryDesk"
-    //app:miniFabTitleTextColor="?attr/colorPrimaryDesk"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,17 +80,21 @@ public class MainActivity extends AppCompatActivity {
         fabSpeedDial.setMenuListener(new FabSpeedDial.MenuListener() {
             @Override
             public boolean onPrepareMenu(NavigationMenu navigationMenu) {
+
                 return true;//false :dont show menu
+
             }
 
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
                 Toast.makeText(MainActivity.this, " "+menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
+
             }
 
             @Override
             public void onMenuClosed() {
+
 
             }
         });
@@ -111,8 +113,32 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
            if (item.getItemId()==R.id.opt1) {
         // android dialog box code starts here************
+        AlertDialog.Builder mbuilder= new AlertDialog.Builder(MainActivity.this);
 
-    startActivity(new Intent(getApplicationContext(),chooseContacts.class));
+        View mview=getLayoutInflater().inflate(R.layout.blist_dialog,null);
+               Button addB=(Button)mview.findViewById(R.id.add_to_blist);
+               Button viewB=(Button)mview.findViewById(R.id.show_blist);
+
+               addB.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       finish();
+                       startActivity(new Intent(getApplicationContext(),chooseContacts.class));
+                   }
+               });
+               viewB.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                     startActivity(new  Intent(getApplicationContext(),viewRemoveBlist.class));
+                       //Toast.makeText(MainActivity.this, "wait dude", Toast.LENGTH_SHORT).show();
+                   }
+               });
+
+
+               mbuilder.setView(mview);
+               AlertDialog dialog=mbuilder.create();
+               dialog.show();
+//    startActivity(new Intent(getApplicationContext(),chooseContacts.class));
 
 
         }
@@ -176,13 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(m.getKey() + " \t" + m.getValue());
                 k.add((sMs) m.getValue());
             }
-/*
-       int j = 0;
-            for (sMs f : k) {
-                // Toast.makeText(this, f.getContact()+"  "+f.getMsg()+"\n", Toast.LENGTH_SHORT).show();
-                        mProductList.add(new Product(++j, f.getContact(), f.getMsg(), new SimpleDateFormat("dd/MM/yy hh:mm").format(f.getDate())));
-                j++;
-            }*/
+
             List<finsms>  fin=new ArrayList<>();
             int y=0;
             while(y<k.size()){
