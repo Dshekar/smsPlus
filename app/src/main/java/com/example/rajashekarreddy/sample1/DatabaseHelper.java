@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.util.List;
 
@@ -56,13 +58,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public void removeItems(List<String> bItems){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Integer removeItems(List<String> bItems){
 
-        for (String s:bItems
-             ) {
+            String[] o=bItems.parallelStream().toArray(String[]::new);
             SQLiteDatabase db = this.getWritableDatabase();
-             db.execSQL("delete from "+TABLE_NAME+" where PHN = "+s);
-        }
+            Integer i= db.delete(TABLE_NAME,"PHN = ?",o);
+        return i;
 
 
     }
