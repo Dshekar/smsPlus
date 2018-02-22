@@ -3,6 +3,7 @@ package com.example.rajashekarreddy.sample1;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
+
+import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -178,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (c.moveToFirst()) { // must check the result to prevent exception
                 do {
-                    nlist.add(new sMs(c.getString(0), c.getString(1), new Date(Long.parseLong(c.getString(2)))));
+                    nlist.add(new sMs(c.getString(0).replaceAll(" ",""), c.getString(1), new Date(Long.parseLong(c.getString(2)))));
                 } while (c.moveToNext());
 
             }
@@ -215,7 +219,17 @@ public class MainActivity extends AppCompatActivity {
             int jj = 0;
             for (finsms f : fin) {
                 // Toast.makeText(this, f.getContact()+"  "+f.getMsg()+"\n", Toast.LENGTH_SHORT).show();
-                mProductList.add(new Product(++jj, f.getContact(), f.getMsg(), new SimpleDateFormat("dd/MM/yy   hh:mm").format(f.getDate())));
+               if (f.getContact().length()<10) {
+
+                   mProductList.add(new Product(++jj, f.getContact(), f.getMsg(), new SimpleDateFormat("dd/MM/yy   hh:mm").format(f.getDate()),f.getContact()) );
+               }
+               else{
+                   if (getContactName(getApplicationContext(),f.getContact())!=null)
+                   mProductList.add(new Product(++jj, getContactName(getApplicationContext(),f.getContact()), f.getMsg(), new SimpleDateFormat("dd/MM/yy   hh:mm").format(f.getDate()),f.getContact() ));
+                   else
+                       mProductList.add(new Product(++jj, f.getContact(), f.getMsg(), new SimpleDateFormat("dd/MM/yy   hh:mm").format(f.getDate()),f.getContact() ));
+
+               }
                 io.add(f.getContact());
                 jj++;
             }
@@ -224,11 +238,12 @@ public class MainActivity extends AppCompatActivity {
             //max code
             adapter = new ProductListAdapter(getApplicationContext(), mProductList);
             lvProduct.setAdapter(adapter);
-    lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-        public void onItemClick(AdapterView<?> arg,View v,int position,long arg1){
+            lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> arg,View v,int position,long arg1){
             Product p=(Product) arg.getItemAtPosition(position);
             //Toast.makeText(MainActivity.this, p.getName(), Toast.LENGTH_SHORT).show();
-            ii.putExtra("name",p.getName());
+            ii.putExtra("name",p.getNum());
+                Toast.makeText(MainActivity.this, " "+p.getName(), Toast.LENGTH_SHORT).show();
             startActivity(ii);
         }
     });
@@ -250,5 +265,38 @@ List<String> contacts=null;
 return contacts;
         //display contact numbers in the list
     }
+
+
+
+
+    private String getContactName(Context context, String number) {
+
+        String name = null;
+
+        // define the columns I want the query to return
+        String[] projection = new String[] {
+                ContactsContract.PhoneLookup.DISPLAY_NAME,
+                ContactsContract.PhoneLookup._ID};
+
+        // encode the phone number and build the filter URI
+        Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+
+        // query time
+        Cursor cursor = context.getContentResolver().query(contactUri, projection, null, null, null);
+
+        if(cursor != null) {
+            if (cursor.moveToFirst()) {
+                name =      cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+
+            } else {
+                Log.v(TAG, "Contact Not Found @ " + number);
+            }
+            cursor.close();
+        }
+        return name;
+    }
+
+
+
 
 }

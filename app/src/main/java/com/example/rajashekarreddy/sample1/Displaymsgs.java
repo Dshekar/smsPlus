@@ -26,7 +26,7 @@ public class Displaymsgs extends AppCompatActivity {
         setTitle(getIntent().getStringExtra("name"));
         mProductList = new ArrayList<>();
         lvProduct = (ListView) findViewById(R.id.listview_product1);
-        Toast.makeText(this, getIntent().getStringExtra("name"), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, getIntent().getStringExtra("name"), Toast.LENGTH_SHORT).show();
 
 
         String[] res = {"body" , "date" , "type"};
@@ -37,6 +37,7 @@ int t=1;
         if (c.moveToFirst()) { // must check the result to prevent exception
             do {
                 mProductList.add(new Message(t++,c.getString(0),new SimpleDateFormat(" hh:mm  dd/MM/yy ").format(new Date(Long.parseLong(c.getString(1)))),c.getString(2)));
+
             } while (c.moveToNext());
 
         }

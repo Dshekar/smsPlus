@@ -53,7 +53,7 @@ public class viewRemoveBlist extends Activity {
         builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Integer k =dbhp.removeItems(bHolder);
+             Integer k=  dbhp.removeItems(bHolder);
             finish();
                 Toast.makeText(viewRemoveBlist.this, k+" contacts removed from Blocklist", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));

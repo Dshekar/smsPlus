@@ -63,8 +63,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             String[] o=bItems.parallelStream().toArray(String[]::new);
             SQLiteDatabase db = this.getWritableDatabase();
-            Integer i= db.delete(TABLE_NAME,"PHN = ?",o);
-        return i;
+            Integer i =0;
+            for (int h = 0 ; h < o.length;h++) {
+                db.delete(TABLE_NAME, "PHN = '"+o[h]+"'",null);
+                i++;
+            }
+            return i;
 
 
     }

@@ -1,18 +1,26 @@
 package com.example.rajashekarreddy.sample1;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 public class chooseContacts extends Activity {
@@ -95,7 +103,6 @@ builder.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
    AlertDialog dialog = builder.create();
    dialog.show();
 
-
     }
     public List<String> getNumber(ContentResolver cr)
     {
@@ -106,10 +113,15 @@ builder.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
             String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             phoneNumber=phoneNumber.replaceAll("[-+.^:, ]","");
+            if(!contacts.contains(name+"\n "+phoneNumber))
             contacts.add(name+"\n "+phoneNumber);
         }
         phones.close();// close cursor
+        Collections.sort(contacts);
         return contacts;
         //display contact numbers in the list
     }
+
+
+
 }
