@@ -92,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
                 Toast.makeText(MainActivity.this, " "+menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                if(menuItem.getTitle().equals("schedule message")){
+                    startActivity(new Intent(getApplicationContext(),scheduleSMS.class));
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(),ComposeSmsActivity.class));
+
+                }
                 return true;
 
             }

@@ -59,6 +59,10 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".MyAlarm"
+            android:enabled="true"
+            android:exported="true"/>
+
         <!-- Service that delivers messages from the phone "quick response" -->
         <service
             android:name=".HeadlessSmsSendService"
@@ -79,7 +83,8 @@
         <activity android:name=".Displaymsgs" />
         <activity android:name=".LastActivity" />
         <activity android:name=".chooseContacts" />
-        <activity android:name=".viewRemoveBlist"></activity>
+        <activity android:name=".viewRemoveBlist" />
+        <activity android:name=".scheduleSMS"></activity>
     </application>
 
 </manifest>
