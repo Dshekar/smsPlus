@@ -31,10 +31,12 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/message1"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:singleLine="false" />
 
         <ImageView
             android:id="@+id/sendbtn"
+            android:onClick="sendMSG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/todo1"
