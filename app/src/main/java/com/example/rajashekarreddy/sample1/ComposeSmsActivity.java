@@ -45,6 +45,7 @@ k=(EditText)findViewById(R.id.msgTxt);
 
         }
 
+
     }
     public void sendMSG(View view){
 
@@ -53,7 +54,8 @@ k=(EditText)findViewById(R.id.msgTxt);
         }
         else{
            sendSMS(l.getText().toString(),k.getText().toString());
-           sendSMS("9502504108","hellooo hi");
+
+
         }
     }
     private void sendSMS(String phoneNumber, String message)
@@ -117,6 +119,10 @@ k=(EditText)findViewById(R.id.msgTxt);
 
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+        Intent i =new Intent();
+        i.putExtra("name",phoneNumber);
+        startActivity(i);
+        
     }
 
     @Override
